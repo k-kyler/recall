@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, View } from "react-native";
-import LogIn from "./src/pages/LogIn";
+import Router from "./src/navigation/Router";
 
 const styles = StyleSheet.create({
   container: {
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <View style={styles.container}>
       <StatusBar style="auto" />
-      <LogIn />
+      <Router />
     </View>
   );
 }
