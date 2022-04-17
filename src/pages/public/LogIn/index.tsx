@@ -1,8 +1,8 @@
-import { makeRules } from "../../constants/validationRules";
+import { makeRules } from "../../../constants/validationRules";
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Text, View, Image, StyleSheet } from "react-native";
-import { RHFTextInput } from "../../RHF";
+import { RHFTextInput } from "../../../RHF";
 import { options } from "./inputOptions";
 import { Button } from "react-native-paper";
 
@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10,
+    padding: 5,
   },
 });
 
@@ -56,7 +57,7 @@ const LogIn = () => {
       <FormProvider {...methods}>
         <View style={styles.logoContainer}>
           <Image
-            source={require("../../assets/favicon.png")}
+            source={require("../../../assets/favicon.png")}
             style={styles.logoImage}
           />
           <Text style={styles.title}>Recall</Text>

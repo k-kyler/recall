@@ -1,5 +1,5 @@
-import { Props as TextInputProps } from "../../components/TextInput";
-import { InputName } from "../../constants/inputName";
+import { Props as TextInputProps } from "../../../components/public/TextInput";
+import { InputName } from "../../../constants/inputName";
 
 type PropsType = Record<InputName, TextInputProps>;
 
