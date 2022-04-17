@@ -6,9 +6,7 @@ import {
   useFormContext,
 } from "react-hook-form";
 import isObject from "lodash/isObject";
-import TextInput, {
-  Props as TextInputProps,
-} from "../components/public/TextInput";
+import TextInput, { Props as TextInputProps } from "../public/TextInput";
 
 type Props = {
   inputName: string;

@@ -4,7 +4,7 @@ import { Text, View, Image, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { makeRules } from "../../../constants/validationRules";
-import { RHFTextInput } from "../../../RHF";
+import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 
 type StackParamList = {
