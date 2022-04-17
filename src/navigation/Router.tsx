@@ -1,30 +1,41 @@
 import React from "react";
-import { NativeRouter, Route, Routes } from "react-router-native";
-import LogIn from "../pages/public/LogIn";
-import Register from "../pages/public/Register";
-import ForgotPassword from "../pages/public/ForgotPassword";
-import NotFound from "../pages/public/NotFound";
-import TodoList from "../pages/private/TodoList";
-import PublicOutlet from "./PublicOutlet";
-import PrivateOutlet from "./PrivateOutlet";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Login from "../screens/public/Login";
+import Register from "../screens/public/Register";
+import ForgotPassword from "../screens/public/ForgotPassword";
+import TodoList from "../screens/private/TodoList";
+
+const Stack = createNativeStackNavigator();
 
 const Router = () => {
   return (
-    <NativeRouter>
-      <Routes>
-        <Route path="/" element={<PublicOutlet />}>
-          <Route index element={<LogIn />} />
-          <Route path="register" element={<Register />} />
-          <Route path="forgot-password" element={<ForgotPassword />} />
-        </Route>
-
-        <Route path="/todo-list" element={<PrivateOutlet />}>
-          <Route index element={<TodoList />} />
-        </Route>
-
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </NativeRouter>
+    <NavigationContainer>
+      <Stack.Navigator
+        screenOptions={{
+          headerTitleAlign: "center",
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#ff6e69" },
+        }}
+      >
+        <Stack.Screen
+          options={{ title: "Welcome to Recall" }}
+          name="Login"
+          component={Login}
+        />
+        <Stack.Screen name="Register" component={Register} />
+        <Stack.Screen
+          options={{ title: "Reset password" }}
+          name="ForgotPassword"
+          component={ForgotPassword}
+        />
+        <Stack.Screen
+          options={{ title: "Things to do" }}
+          name="TodoList"
+          component={TodoList}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 };
 

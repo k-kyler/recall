@@ -1,16 +1,29 @@
-import { makeRules } from "../../../constants/validationRules";
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Text, View, Image, StyleSheet } from "react-native";
+import { Button } from "react-native-paper";
+import type { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { makeRules } from "../../../constants/validationRules";
 import { RHFTextInput } from "../../../RHF";
 import { options } from "./inputOptions";
-import { Button } from "react-native-paper";
+
+type StackParamList = {
+  Register: undefined;
+  ForgotPassword: undefined;
+};
+
+type Props = NativeStackScreenProps<StackParamList>;
 
 type FormInputType = Record<"email" | "password", string>;
 
 const INPUT_NAMES: Readonly<string[]> = ["email", "password"];
 
 const styles = StyleSheet.create({
+  container: {
+    margin: 30,
+    flex: 1,
+    justifyContent: "center",
+  },
   logoContainer: {
     display: "flex",
     flexDirection: "row",
@@ -26,13 +39,24 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
   },
-  button: {
+  loginButton: {
     marginTop: 10,
-    padding: 5,
+    color: "white",
+    backgroundColor: "#ff6e69",
+  },
+  registerContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+    marginTop: 15,
+  },
+  forgotPasswordButton: {
+    alignSelf: "center",
   },
 });
 
-const LogIn = () => {
+const Login: React.FC<Props> = ({ navigation }) => {
   const defaultValues: FormInputType = {
     email: "",
     password: "",
@@ -53,7 +77,7 @@ const LogIn = () => {
   const rules = makeRules(Object.keys(defaultValues));
 
   return (
-    <View>
+    <View style={styles.container}>
       <FormProvider {...methods}>
         <View style={styles.logoContainer}>
           <Image
@@ -76,16 +100,35 @@ const LogIn = () => {
         </View>
 
         <Button
-          style={styles.button}
+          style={styles.loginButton}
           uppercase={false}
           mode="contained"
           onPress={methods.handleSubmit(logInHandler)}
         >
-          Log in
+          Login
+        </Button>
+
+        <View style={styles.registerContainer}>
+          <Text>New to Recall?</Text>
+          <Button
+            uppercase={false}
+            compact
+            onPress={() => navigation.navigate("Register")}
+          >
+            Register
+          </Button>
+        </View>
+
+        <Button
+          style={styles.forgotPasswordButton}
+          uppercase={false}
+          onPress={() => navigation.navigate("ForgotPassword")}
+        >
+          Forgot password?
         </Button>
       </FormProvider>
     </View>
   );
 };
 
-export default LogIn;
+export default Login;
