@@ -1,13 +1,10 @@
-import { OptionalRecord } from "../typings/OptionalRecord";
 import { UseControllerProps } from "react-hook-form";
 
-import { InputName } from "./inputName";
+type Message = Partial<Record<keyof UseControllerProps["rules"], string>>;
 
-type Message = OptionalRecord<keyof UseControllerProps["rules"], string>;
+type Messages = Partial<Record<string, Message>>;
 
-type Messages = OptionalRecord<InputName, Message>;
-
-export const messages: Messages = {
+const messages: Messages = {
   email: {
     required: "Email is required",
     pattern: "Invalid email address",
@@ -18,3 +15,5 @@ export const messages: Messages = {
       "At least 8 characters. Including 1 letter, 1 number and 1 special character",
   },
 };
+
+export default messages;

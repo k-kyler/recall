@@ -1,7 +1,7 @@
+import { LoginInputNames } from ".";
 import { Props as TextInputProps } from "../../../components/public/TextInput";
-import { InputName } from "../../../constants/inputName";
 
-type PropsType = Record<InputName, TextInputProps>;
+type PropsType = Record<LoginInputNames, TextInputProps>;
 
 export const options: PropsType = {
   email: {

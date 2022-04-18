@@ -3,9 +3,10 @@ import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Text, View, Image, StyleSheet } from "react-native";
 import { Button } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { makeRules } from "../../../constants/validationRules";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
+import { generateRules } from "../../../utils/rulesGeneration";
+import { loginInputRules } from "./loginRules";
 
 type StackParamList = {
   Register: undefined;
@@ -14,9 +15,11 @@ type StackParamList = {
 
 type Props = NativeStackScreenProps<StackParamList>;
 
-type FormInputType = Record<"email" | "password", string>;
+export type LoginInputNames = "email" | "password";
 
-const INPUT_NAMES: Readonly<string[]> = ["email", "password"];
+type FormInputType = Partial<Record<LoginInputNames, string>>;
+
+const INPUT_NAMES: Readonly<LoginInputNames[]> = ["email", "password"];
 
 const styles = StyleSheet.create({
   container: {
@@ -74,7 +77,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
   const logInHandler: SubmitHandler<FormInputType> = (data) =>
     console.log(data);
 
-  const rules = makeRules(Object.keys(defaultValues));
+  const rules = generateRules(Object.keys(defaultValues), loginInputRules);
 
   return (
     <View style={styles.container}>
@@ -88,7 +91,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <View>
-          {INPUT_NAMES.map((inputName) => (
+          {INPUT_NAMES.map((inputName: LoginInputNames) => (
             <RHFTextInput
               key={inputName}
               inputName={inputName}
