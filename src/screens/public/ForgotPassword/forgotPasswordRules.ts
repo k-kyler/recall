@@ -1,8 +1,8 @@
-import { LoginInputNames } from ".";
+import { forgotPasswordInputNames } from ".";
 import { RulesType } from "../../../typings/utils";
 import { messages, patterns } from "../../../constants/validation";
 
-export const loginInputRules: RulesType<LoginInputNames> = {
+export const forgotPasswordInputRules: RulesType<forgotPasswordInputNames> = {
   email: {
     required: {
       value: true,
@@ -11,16 +11,6 @@ export const loginInputRules: RulesType<LoginInputNames> = {
     pattern: {
       value: patterns["email"],
       message: messages["email"]["pattern"],
-    },
-  },
-  password: {
-    required: {
-      value: true,
-      message: messages["password"]["required"],
-    },
-    pattern: {
-      value: patterns["password"],
-      message: messages["password"]["pattern"],
     },
   },
 };
