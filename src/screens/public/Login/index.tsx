@@ -1,7 +1,7 @@
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Text, View, Image, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { View, Image, StyleSheet } from "react-native";
+import { Button, Headline, Text } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
@@ -39,11 +39,9 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 5,
   },
-  title: {
-    fontSize: 30,
-  },
   loginButton: {
     marginTop: 10,
+    padding: 8,
     color: "white",
     backgroundColor: "#ff6e69",
   },
@@ -87,7 +85,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
             source={require("../../../assets/favicon.png")}
             style={styles.logoImage}
           />
-          <Text style={styles.title}>Recall</Text>
+          <Headline>Recall</Headline>
         </View>
 
         <View>

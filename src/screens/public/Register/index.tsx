@@ -1,7 +1,7 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Button } from "react-native-paper";
+import { Button, Headline } from "react-native-paper";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
@@ -24,12 +24,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 20,
     marginBottom: 35,
     textAlign: "center",
   },
   registerButton: {
     marginTop: 10,
+    padding: 8,
     color: "white",
     backgroundColor: "#ff6e69",
   },
@@ -68,9 +68,9 @@ const Register = () => {
   return (
     <View style={styles.container}>
       <FormProvider {...methods}>
-        <Text style={styles.title}>
-          Glad to see you here! We'll help you keep everything
-        </Text>
+        <Headline style={styles.title}>
+          Please enter your email and password
+        </Headline>
 
         <View>
           {INPUT_NAMES.map((inputName: RegisterInputNames) => (
