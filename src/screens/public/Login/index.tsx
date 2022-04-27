@@ -1,16 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Text, View, Image, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { View, Image, StyleSheet } from "react-native";
+import { Button, Headline, Text } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { loginInputRules } from "./loginRules";
+import { auth } from "../../../../firebase";
 
 type StackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
+  TodoList: undefined;
 };
 
 type Props = NativeStackScreenProps<StackParamList>;
@@ -39,11 +41,9 @@ const styles = StyleSheet.create({
     height: 40,
     marginRight: 5,
   },
-  title: {
-    fontSize: 30,
-  },
   loginButton: {
     marginTop: 10,
+    padding: 8,
     color: "white",
     backgroundColor: "#ff6e69",
   },
@@ -74,10 +74,22 @@ const Login: React.FC<Props> = ({ navigation }) => {
     formState: { errors },
   } = methods;
 
-  const logInHandler: SubmitHandler<FormInputType> = (data) =>
-    console.log(data);
+  const logInHandler: SubmitHandler<FormInputType> = (data) => {};
 
   const rules = generateRules(Object.keys(defaultValues), loginInputRules);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(
+      auth.getAuth(),
+      (userCredential) => {
+        if (userCredential) {
+          navigation.replace("TodoList");
+        }
+      }
+    );
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -87,7 +99,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
             source={require("../../../assets/favicon.png")}
             style={styles.logoImage}
           />
-          <Text style={styles.title}>Recall</Text>
+          <Headline>Recall</Headline>
         </View>
 
         <View>

@@ -23,14 +23,4 @@ export const registerInputRules: RulesType<RegisterInputNames> = {
       message: messages["password"]["pattern"],
     },
   },
-  confirmPassword: {
-    required: {
-      value: true,
-      message: messages["password"]["required"],
-    },
-    pattern: {
-      value: patterns["password"],
-      message: messages["password"]["pattern"],
-    },
-  },
 };

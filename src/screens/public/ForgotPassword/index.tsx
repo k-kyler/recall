@@ -1,7 +1,7 @@
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { Text, View, StyleSheet } from "react-native";
-import { Button } from "react-native-paper";
+import { View, StyleSheet } from "react-native";
+import { Button, Title } from "react-native-paper";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
@@ -20,12 +20,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   title: {
-    fontSize: 20,
     marginBottom: 35,
     textAlign: "center",
   },
   sendButton: {
     marginTop: 10,
+    padding: 8,
     color: "white",
     backgroundColor: "#ff6e69",
   },
@@ -56,9 +56,9 @@ const ForgotPassword = () => {
   return (
     <View style={styles.container}>
       <FormProvider {...methods}>
-        <Text style={styles.title}>
+        <Title style={styles.title}>
           Enter your email and we'll send you a recovery link
-        </Text>
+        </Title>
 
         <View>
           {INPUT_NAMES.map((inputName: forgotPasswordInputNames) => (
