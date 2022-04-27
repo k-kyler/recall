@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { View, Image, StyleSheet } from "react-native";
 import { Button, Headline, Text } from "react-native-paper";
@@ -7,10 +7,12 @@ import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { loginInputRules } from "./loginRules";
+import { auth } from "../../../../firebase";
 
 type StackParamList = {
   Register: undefined;
   ForgotPassword: undefined;
+  TodoList: undefined;
 };
 
 type Props = NativeStackScreenProps<StackParamList>;
@@ -72,10 +74,22 @@ const Login: React.FC<Props> = ({ navigation }) => {
     formState: { errors },
   } = methods;
 
-  const logInHandler: SubmitHandler<FormInputType> = (data) =>
-    console.log(data);
+  const logInHandler: SubmitHandler<FormInputType> = (data) => {};
 
   const rules = generateRules(Object.keys(defaultValues), loginInputRules);
+
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged(
+      auth.getAuth(),
+      (userCredential) => {
+        if (userCredential) {
+          navigation.replace("TodoList");
+        }
+      }
+    );
+
+    return unsubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>

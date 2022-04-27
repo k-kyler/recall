@@ -14,6 +14,9 @@ const messages: Messages = {
     pattern:
       "At least 8 characters. Including 1 letter, 1 number and 1 special character",
   },
+  confirmPassword: {
+    validate: "Passwords do not match",
+  },
 };
 
 export default messages;
