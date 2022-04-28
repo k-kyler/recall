@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { View, StyleSheet } from "react-native";
+import React from "react";
+import { View, StyleSheet, ToastAndroid } from "react-native";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Headline } from "react-native-paper";
 import { RHFTextInput } from "../../../components/RHF";
@@ -9,6 +9,10 @@ import { registerInputRules } from "./registerRules";
 import { messages } from "../../../constants/validation";
 import { auth } from "../../../../firebase";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+
+type StackParamList = {};
+
+type Props = NativeStackScreenProps<StackParamList>;
 
 export type RegisterInputNames = "email" | "password" | "confirmPassword";
 
@@ -38,7 +42,7 @@ const styles = StyleSheet.create({
   },
 });
 
-const Register = () => {
+const Register: React.FC<Props> = ({ navigation }) => {
   const defaultValues: FormInputType = {
     email: "",
     password: "",
@@ -68,9 +72,11 @@ const Register = () => {
     auth
       .createUserWithEmailAndPassword(auth.getAuth(), email, password)
       .then((userCredential) => {
-        // Toast message
+        ToastAndroid.show("Register successful", ToastAndroid.SHORT);
       })
-      .catch((error) => alert(error));
+      .catch((error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
   };
 
   const rules = generateRules(Object.keys(defaultValues), registerInputRules);

@@ -30,7 +30,7 @@ const Router = () => {
           component={ForgotPassword}
         />
         <Stack.Screen
-          options={{ title: "Things to do" }}
+          options={{ title: "Things to do", headerLeft: () => null }}
           name="TodoList"
           component={TodoList}
         />
