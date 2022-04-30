@@ -1,5 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { View, StyleSheet } from "react-native";
+import {
+  View,
+  StyleSheet,
+  NativeSyntheticEvent,
+  TextInputChangeEventData,
+} from "react-native";
 import { Checkbox } from "react-native-paper";
 import { db } from "../../../../firebase";
 import TextInput from "../../public/TextInput";
@@ -40,7 +45,19 @@ const Task: React.FC<Props> = ({ id, content, isFinished }) => {
     }).then(() => setChecked(!checked));
   };
 
-  const changeContentHandler = () => {};
+  const changeContentHandler = async (
+    e: NativeSyntheticEvent<TextInputChangeEventData>
+  ) => {
+    const input = e?.target as unknown as {
+      value: string;
+    };
+    const taskRef = db.doc(db.getFirestore(), "tasks", id);
+
+    setValue(input?.value);
+    await db.updateDoc(taskRef, {
+      content: input?.value,
+    });
+  };
 
   const removeTaskHandler = () => {};
 

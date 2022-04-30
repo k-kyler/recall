@@ -32,7 +32,7 @@ const styles = StyleSheet.create({
   banner: {
     left: 0,
     right: 0,
-    height: 190,
+    height: 200,
   },
   title: {
     marginVertical: 10,
