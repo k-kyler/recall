@@ -5,10 +5,13 @@ import Login from "../screens/public/Login";
 import Register from "../screens/public/Register";
 import ForgotPassword from "../screens/public/ForgotPassword";
 import TodoList from "../screens/private/TodoList";
+import { useAuth } from "../contexts/AuthContext";
 
 const Stack = createNativeStackNavigator();
 
 const Router = () => {
+  const { user } = useAuth();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -18,22 +21,27 @@ const Router = () => {
           headerStyle: { backgroundColor: "#ff6e69" },
         }}
       >
-        <Stack.Screen
-          options={{ title: "Welcome to Recall" }}
-          name="Login"
-          component={Login}
-        />
-        <Stack.Screen name="Register" component={Register} />
-        <Stack.Screen
-          options={{ title: "Reset password" }}
-          name="ForgotPassword"
-          component={ForgotPassword}
-        />
-        <Stack.Screen
-          options={{ title: "Things to do", headerLeft: () => null }}
-          name="TodoList"
-          component={TodoList}
-        />
+        {user ? (
+          <Stack.Screen
+            options={{ header: () => null, title: "Things to do" }}
+            name="TodoList"
+            component={TodoList}
+          />
+        ) : (
+          <>
+            <Stack.Screen
+              options={{ title: "Welcome to Recall" }}
+              name="Login"
+              component={Login}
+            />
+            <Stack.Screen name="Register" component={Register} />
+            <Stack.Screen
+              options={{ title: "Reset password" }}
+              name="ForgotPassword"
+              component={ForgotPassword}
+            />
+          </>
+        )}
       </Stack.Navigator>
     </NavigationContainer>
   );

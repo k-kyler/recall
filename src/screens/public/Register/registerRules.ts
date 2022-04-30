@@ -3,6 +3,12 @@ import { RulesType } from "../../../typings/utils";
 import { messages, patterns } from "../../../constants/validation";
 
 export const registerInputRules: RulesType<RegisterInputNames> = {
+  username: {
+    required: {
+      value: true,
+      message: messages["username"]["required"],
+    },
+  },
   email: {
     required: {
       value: true,
@@ -21,6 +27,12 @@ export const registerInputRules: RulesType<RegisterInputNames> = {
     pattern: {
       value: patterns["password"],
       message: messages["password"]["pattern"],
+    },
+  },
+  confirmPassword: {
+    required: {
+      value: true,
+      message: messages["confirmPassword"]["required"],
     },
   },
 };

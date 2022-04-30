@@ -1,5 +1,5 @@
 import React from "react";
-import { View, StyleSheet, ToastAndroid } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { Button, Headline } from "react-native-paper";
 import { RHFTextInput } from "../../../components/RHF";
@@ -7,18 +7,23 @@ import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { registerInputRules } from "./registerRules";
 import { messages } from "../../../constants/validation";
-import { auth } from "../../../../firebase";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { useAuth } from "../../../contexts/AuthContext";
 
 type StackParamList = {};
 
 type Props = NativeStackScreenProps<StackParamList>;
 
-export type RegisterInputNames = "email" | "password" | "confirmPassword";
+export type RegisterInputNames =
+  | "username"
+  | "email"
+  | "password"
+  | "confirmPassword";
 
 type FormInputType = Partial<Record<RegisterInputNames, string>>;
 
 const INPUT_NAMES: Readonly<RegisterInputNames[]> = [
+  "username",
   "email",
   "password",
   "confirmPassword",
@@ -42,8 +47,11 @@ const styles = StyleSheet.create({
   },
 });
 
-const Register: React.FC<Props> = ({ navigation }) => {
+const Register: React.FC<Props> = () => {
+  const { signUpHandler } = useAuth();
+
   const defaultValues: FormInputType = {
+    username: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -66,27 +74,17 @@ const Register: React.FC<Props> = ({ navigation }) => {
   };
 
   const registerHandler: SubmitHandler<FormInputType> = ({
+    username,
     email,
     password,
-  }) => {
-    auth
-      .createUserWithEmailAndPassword(auth.getAuth(), email, password)
-      .then((userCredential) => {
-        ToastAndroid.show("Register successful", ToastAndroid.SHORT);
-      })
-      .catch((error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
-      });
-  };
+  }) => signUpHandler(username, email, password);
 
   const rules = generateRules(Object.keys(defaultValues), registerInputRules);
 
   return (
     <View style={styles.container}>
       <FormProvider {...methods}>
-        <Headline style={styles.title}>
-          Please enter your email and password
-        </Headline>
+        <Headline style={styles.title}>Let's start your journey</Headline>
 
         <View>
           {INPUT_NAMES.map((inputName: RegisterInputNames) => (

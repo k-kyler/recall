@@ -1,12 +1,21 @@
 import React from "react";
-import { View } from "react-native";
-import { Text } from "react-native-paper";
-import { auth } from "../../../../firebase";
+import { View, StyleSheet } from "react-native";
+import { Headline } from "react-native-paper";
+import { db } from "../../../../firebase";
+import { useAuth } from "../../../contexts/AuthContext";
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 20,
+  },
+});
 
 const TodoList = () => {
+  const { user, signOutHandler } = useAuth();
+
   return (
-    <View>
-      <Text onPress={() => auth.signOut(auth.getAuth())}>Todolist</Text>
+    <View style={styles.container}>
+      <Headline onPress={signOutHandler}>What's up {user.displayName}</Headline>
     </View>
   );
 };

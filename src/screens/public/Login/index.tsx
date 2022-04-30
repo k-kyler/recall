@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { View, Image, StyleSheet } from "react-native";
 import { Button, Headline, Text } from "react-native-paper";
@@ -7,9 +7,11 @@ import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { loginInputRules } from "./loginRules";
-import { auth } from "../../../../firebase";
+import ProgressBar from "../../../components/public/ProgressBar";
+import { useAuth } from "../../../contexts/AuthContext";
 
 type StackParamList = {
+  Login: undefined;
   Register: undefined;
   ForgotPassword: undefined;
   TodoList: undefined;
@@ -60,6 +62,8 @@ const styles = StyleSheet.create({
 });
 
 const Login: React.FC<Props> = ({ navigation }) => {
+  const { isLoading, progress, signInHandler } = useAuth();
+
   const defaultValues: FormInputType = {
     email: "",
     password: "",
@@ -74,74 +78,66 @@ const Login: React.FC<Props> = ({ navigation }) => {
     formState: { errors },
   } = methods;
 
-  const logInHandler: SubmitHandler<FormInputType> = (data) => {};
+  const logInHandler: SubmitHandler<FormInputType> = ({ email, password }) =>
+    signInHandler(email, password);
 
   const rules = generateRules(Object.keys(defaultValues), loginInputRules);
 
-  useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged(
-      auth.getAuth(),
-      (userCredential) => {
-        if (userCredential) {
-          navigation.replace("TodoList");
-        }
-      }
-    );
-
-    return unsubscribe;
-  }, []);
-
   return (
     <View style={styles.container}>
-      <FormProvider {...methods}>
-        <View style={styles.logoContainer}>
-          <Image
-            source={require("../../../assets/favicon.png")}
-            style={styles.logoImage}
-          />
-          <Headline>Recall</Headline>
-        </View>
-
-        <View>
-          {INPUT_NAMES.map((inputName: LoginInputNames) => (
-            <RHFTextInput
-              key={inputName}
-              inputName={inputName}
-              inputError={errors[inputName]}
-              rules={rules[inputName]}
-              {...options[inputName]}
+      {isLoading ? (
+        <ProgressBar progress={progress} />
+      ) : (
+        <FormProvider {...methods}>
+          <View style={styles.logoContainer}>
+            <Image
+              source={require("../../../assets/favicon.png")}
+              style={styles.logoImage}
             />
-          ))}
-        </View>
+            <Headline>Recall</Headline>
+          </View>
 
-        <Button
-          style={styles.loginButton}
-          uppercase={false}
-          mode="contained"
-          onPress={methods.handleSubmit(logInHandler)}
-        >
-          Login
-        </Button>
+          <View>
+            {INPUT_NAMES.map((inputName: LoginInputNames) => (
+              <RHFTextInput
+                key={inputName}
+                inputName={inputName}
+                inputError={errors[inputName]}
+                rules={rules[inputName]}
+                {...options[inputName]}
+              />
+            ))}
+          </View>
 
-        <View style={styles.registerContainer}>
-          <Text>New to Recall?</Text>
           <Button
+            style={styles.loginButton}
             uppercase={false}
-            compact
-            onPress={() => navigation.navigate("Register")}
+            mode="contained"
+            onPress={methods.handleSubmit(logInHandler)}
           >
-            Register
+            Login
           </Button>
-        </View>
 
-        <Button
-          style={styles.forgotPasswordButton}
-          uppercase={false}
-          onPress={() => navigation.navigate("ForgotPassword")}
-        >
-          Forgot password?
-        </Button>
-      </FormProvider>
+          <View style={styles.registerContainer}>
+            <Text>New to Recall?</Text>
+            <Button
+              uppercase={false}
+              compact
+              onPress={() => navigation.navigate("Register")}
+            >
+              Register
+            </Button>
+          </View>
+
+          <Button
+            style={styles.forgotPasswordButton}
+            uppercase={false}
+            onPress={() => navigation.navigate("ForgotPassword")}
+          >
+            Forgot password?
+          </Button>
+        </FormProvider>
+      )}
     </View>
   );
 };

@@ -4,6 +4,13 @@ import { Props as TextInputProps } from "../../../components/public/TextInput";
 type PropsType = Record<RegisterInputNames, TextInputProps>;
 
 export const options: PropsType = {
+  username: {
+    // dynamic
+    label: "Username",
+    placeholder: "Enter your username",
+    // static
+    mode: "outlined",
+  },
   email: {
     // dynamic
     label: "Email",
