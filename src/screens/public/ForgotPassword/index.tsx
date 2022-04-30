@@ -6,6 +6,7 @@ import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { forgotPasswordInputRules } from "./forgotPasswordRules";
+import { useAuth } from "../../../contexts/AuthContext";
 
 export type forgotPasswordInputNames = "email";
 
@@ -32,6 +33,8 @@ const styles = StyleSheet.create({
 });
 
 const ForgotPassword = () => {
+  const { resetPasswordHandler } = useAuth();
+
   const defaultValues: FormInputType = {
     email: "",
   };
@@ -45,8 +48,8 @@ const ForgotPassword = () => {
     formState: { errors },
   } = methods;
 
-  const forgotPasswordHandler: SubmitHandler<FormInputType> = (data) =>
-    console.log(data);
+  const forgotPasswordHandler: SubmitHandler<FormInputType> = ({ email }) =>
+    resetPasswordHandler(email);
 
   const rules = generateRules(
     Object.keys(defaultValues),

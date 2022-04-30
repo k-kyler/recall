@@ -5,9 +5,9 @@ import { auth } from "../../firebase";
 type AuthContextProps = {
   user: auth.User | null;
   isLoading: boolean;
-  progress: number;
   signInHandler: (email: string, password: string) => void;
   signUpHandler: (username: string, email: string, password: string) => void;
+  resetPasswordHandler: (email: string) => void;
   signOutHandler: () => void;
 };
 
@@ -19,7 +19,6 @@ export const useAuth = () => {
 
 const AuthProvider: React.FC = ({ children }) => {
   const [isLoading, setIsLoading] = useState(true);
-  const [progress, setProgress] = useState(0);
   const [user, setUser] = useState<auth.User>();
 
   const signInHandler = (email: string, password: string) => {
@@ -47,22 +46,26 @@ const AuthProvider: React.FC = ({ children }) => {
       });
   };
 
-  const signOutHandler = () => auth.signOut(auth.getAuth());
+  const resetPasswordHandler = (email: string) => {
+    auth
+      .sendPasswordResetEmail(auth.getAuth(), email)
+      .then((response) => {
+        ToastAndroid.show("Recovery email is sent", ToastAndroid.SHORT);
+      })
+      .catch((error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
+  };
 
-  const fakeProgress = () => {
-    const unsubscribe = setInterval(
-      () => setProgress((prevProgress) => prevProgress + 0.3),
-      500
-    );
-
-    return unsubscribe;
+  const signOutHandler = () => {
+    setUser(null);
+    auth.signOut(auth.getAuth());
   };
 
   const onAuthStateChanged = () => {
     const unsubscribe = auth.onAuthStateChanged(auth.getAuth(), (userInfo) => {
-      setIsLoading(false);
-      setProgress(1);
       setUser(null);
+      setIsLoading(false);
 
       if (userInfo) {
         setUser(userInfo);
@@ -75,14 +78,13 @@ const AuthProvider: React.FC = ({ children }) => {
   const providerValue = {
     user,
     isLoading,
-    progress,
     signInHandler,
     signUpHandler,
+    resetPasswordHandler,
     signOutHandler,
   };
 
   useEffect(() => {
-    fakeProgress();
     onAuthStateChanged();
   }, []);
 

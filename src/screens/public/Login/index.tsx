@@ -1,13 +1,12 @@
 import React from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import { View, Image, StyleSheet } from "react-native";
-import { Button, Headline, Text } from "react-native-paper";
+import { ActivityIndicator, Button, Headline, Text } from "react-native-paper";
 import type { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { RHFTextInput } from "../../../components/RHF";
 import { options } from "./inputOptions";
 import { generateRules } from "../../../utils/rulesGeneration";
 import { loginInputRules } from "./loginRules";
-import ProgressBar from "../../../components/public/ProgressBar";
 import { useAuth } from "../../../contexts/AuthContext";
 
 type StackParamList = {
@@ -62,7 +61,7 @@ const styles = StyleSheet.create({
 });
 
 const Login: React.FC<Props> = ({ navigation }) => {
-  const { isLoading, progress, signInHandler } = useAuth();
+  const { isLoading, signInHandler } = useAuth();
 
   const defaultValues: FormInputType = {
     email: "",
@@ -86,7 +85,7 @@ const Login: React.FC<Props> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       {isLoading ? (
-        <ProgressBar progress={progress} />
+        <ActivityIndicator animating={true} size="large" />
       ) : (
         <FormProvider {...methods}>
           <View style={styles.logoContainer}>
