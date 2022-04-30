@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, SafeAreaView, FlatList } from "react-native";
 import { Headline, FAB } from "react-native-paper";
+import Swipeable from "react-native-gesture-handler/Swipeable";
 import { db } from "../../../../firebase";
 import Task from "../../../components/private/Task";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
   banner: {
     left: 0,
     right: 0,
-    height: 190,
+    height: 200,
   },
   title: {
     marginVertical: 10,
@@ -66,7 +67,14 @@ const TodoList = () => {
     });
   };
 
-  const addTaskHandler = () => {};
+  const addTaskHandler = async () => {
+    await db.addDoc(db.collection(db.getFirestore(), "tasks"), {
+      uid: user.uid,
+      content: "",
+      isFinished: false,
+      timestamp: db.serverTimestamp(),
+    });
+  };
 
   useEffect(() => {
     getTasks();
@@ -95,6 +103,7 @@ const TodoList = () => {
 
       <FAB
         style={styles.fab}
+        small
         icon="plus"
         color="white"
         onPress={addTaskHandler}
