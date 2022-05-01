@@ -101,8 +101,8 @@ const Task: React.FC<Props> = ({ id, content, isFinished }) => {
         <Button
           style={styles.removeButton}
           compact
-          color="#ff6e69"
-          icon="delete"
+          color="#000"
+          icon="close"
           onPress={removeTaskHandler}
         >
           <></>

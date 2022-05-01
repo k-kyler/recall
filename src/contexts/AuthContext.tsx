@@ -59,7 +59,14 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const signOutHandler = () => {
     setUser(null);
-    auth.signOut(auth.getAuth());
+    auth
+      .signOut(auth.getAuth())
+      .then((response) => {
+        ToastAndroid.show("Logged out", ToastAndroid.SHORT);
+      })
+      .catch((error) => {
+        ToastAndroid.show(error, ToastAndroid.SHORT);
+      });
   };
 
   const onAuthStateChanged = () => {
