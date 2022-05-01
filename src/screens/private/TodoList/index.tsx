@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, StyleSheet, Image, SafeAreaView, FlatList } from "react-native";
-import { Headline, FAB } from "react-native-paper";
+import { Headline, FAB, Drawer, Button } from "react-native-paper";
 import { db } from "../../../../firebase";
 import Task from "../../../components/private/Task";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -18,6 +18,7 @@ const styles = StyleSheet.create({
   },
   bannerContainer: {
     paddingHorizontal: 20,
+    paddingTop: 15,
   },
   tasksContainer: {
     flex: 1,
@@ -34,8 +35,15 @@ const styles = StyleSheet.create({
     right: 0,
     height: 200,
   },
-  title: {
+  titleContainer: {
     marginVertical: 10,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flexDirection: "row",
+  },
+  title: {
+    maxWidth: 200,
   },
   fab: {
     position: "absolute",
@@ -86,9 +94,19 @@ const TodoList = () => {
           source={require("../../../assets/banner.svg")}
           style={styles.banner}
         />
-        <Headline style={styles.title} onPress={signOutHandler}>
-          What's up {user.displayName}
-        </Headline>
+
+        <View style={styles.titleContainer}>
+          <Headline style={styles.title}>What's up {user.displayName}</Headline>
+
+          <Button
+            compact
+            color="#7e8b99"
+            icon="export"
+            onPress={signOutHandler}
+          >
+            <></>
+          </Button>
+        </View>
       </View>
 
       <SafeAreaView style={styles.tasksContainer}>
