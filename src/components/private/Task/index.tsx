@@ -32,11 +32,10 @@ const styles = StyleSheet.create({
     marginTop: 7,
   },
   strikeContent: {
-    backgroundColor: "transparent",
-    marginTop: 7,
     textDecorationLine: "line-through",
     color: "#a4a9af",
   },
+  removeButton: {},
 });
 
 const Task: React.FC<Props> = ({ id, content, isFinished }) => {
@@ -80,12 +79,15 @@ const Task: React.FC<Props> = ({ id, content, isFinished }) => {
           onPress={checkedHandler}
         />
         <TextInput
-          style={checked ? styles.strikeContent : styles.content}
+          style={[checked && styles.strikeContent, styles.content]}
           value={value}
           onChange={changeContentHandler}
-          // onTouchStart={() => setDisplayRemove(true)}
-          // onTouchEndCapture={() => setDisplayRemove(false)}
+          onFocus={() => setDisplayRemove(true)}
+          onBlur={() => {
+            setTimeout(() => setDisplayRemove(false), 500);
+          }}
           disabled={checked}
+          autoFocus
           dense
           multiline
           mode="outlined"
@@ -95,11 +97,17 @@ const Task: React.FC<Props> = ({ id, content, isFinished }) => {
           activeOutlineColor="transparent"
         />
       </View>
-      {/* {displayRemove && ( */}
-      <Button compact color="#ff6e69" icon="delete" onPress={removeTaskHandler}>
-        <></>
-      </Button>
-      {/* )} */}
+      {displayRemove && (
+        <Button
+          style={styles.removeButton}
+          compact
+          color="#ff6e69"
+          icon="delete"
+          onPress={removeTaskHandler}
+        >
+          <></>
+        </Button>
+      )}
     </View>
   );
 };
