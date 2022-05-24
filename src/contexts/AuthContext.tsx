@@ -25,10 +25,10 @@ const AuthProvider: React.FC = ({ children }) => {
     auth
       .signInWithEmailAndPassword(auth.getAuth(), email, password)
       .then((userInfo) => {
-        ToastAndroid.show("Login successful", ToastAndroid.SHORT);
+        // ToastAndroid.show("Login successful", ToastAndroid.SHORT);
       })
       .catch((error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        // ToastAndroid.show(error, ToastAndroid.SHORT);
       });
   };
 
@@ -39,10 +39,10 @@ const AuthProvider: React.FC = ({ children }) => {
         auth.updateProfile(auth.getAuth().currentUser, {
           displayName: username,
         });
-        ToastAndroid.show("Register successful", ToastAndroid.SHORT);
+        // ToastAndroid.show("Register successful", ToastAndroid.SHORT);
       })
       .catch((error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        // ToastAndroid.show(error, ToastAndroid.SHORT);
       });
   };
 
@@ -50,10 +50,10 @@ const AuthProvider: React.FC = ({ children }) => {
     auth
       .sendPasswordResetEmail(auth.getAuth(), email)
       .then((response) => {
-        ToastAndroid.show("Recovery email is sent", ToastAndroid.SHORT);
+        // ToastAndroid.show("Recovery email is sent", ToastAndroid.SHORT);
       })
       .catch((error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        // ToastAndroid.show(error, ToastAndroid.SHORT);
       });
   };
 
@@ -62,10 +62,10 @@ const AuthProvider: React.FC = ({ children }) => {
     auth
       .signOut(auth.getAuth())
       .then((response) => {
-        ToastAndroid.show("Logged out", ToastAndroid.SHORT);
+        // ToastAndroid.show("Logged out", ToastAndroid.SHORT);
       })
       .catch((error) => {
-        ToastAndroid.show(error, ToastAndroid.SHORT);
+        // ToastAndroid.show(error, ToastAndroid.SHORT);
       });
   };
 

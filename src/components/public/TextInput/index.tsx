@@ -19,11 +19,11 @@ const TextInput: React.FC<Props> = ({ label, error, helperText, ...rest }) => {
         {...rest}
       />
 
-      {error && (
+      {/* {error && (
         <HelperText type="error" visible={error}>
           {helperText}
         </HelperText>
-      )}
+      )} */}
     </View>
   );
 };
