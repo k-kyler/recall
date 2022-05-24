@@ -8,21 +8,16 @@ export type Props = {
   error?: boolean;
   helperText?: string;
 };
-//  & Omit<TextInputProps, "label" | "error" | "theme">;
+// & Omit<TextInputProps, "label" | "error" | "theme">;
 
-const TextInput: React.FC<Props> = ({
-  label,
-  error,
-  helperText,
-  // ...rest
-}) => {
+const TextInput: React.FC<Props> = ({ label, error, helperText, ...rest }) => {
   return (
     <View style={{ marginBottom: 15 }}>
       <PaperTextInput
         autoComplete="true"
         label={label}
         error={error}
-        // {...rest}
+        {...rest}
       />
 
       {error && (
