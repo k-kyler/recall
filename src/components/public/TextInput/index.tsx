@@ -12,18 +12,13 @@ export type Props = {
 const TextInput: React.FC<Props> = ({ label, error, helperText, ...rest }) => {
   return (
     <View style={{ marginBottom: 15 }}>
-      <PaperTextInput
-        autoComplete="true"
-        label={label}
-        error={error}
-        {...rest}
-      />
+      <PaperTextInput label={label} error={error} {...rest} />
 
-      {/* {error && (
+      {error && (
         <HelperText type="error" visible={error}>
           {helperText}
         </HelperText>
-      )} */}
+      )}
     </View>
   );
 };
