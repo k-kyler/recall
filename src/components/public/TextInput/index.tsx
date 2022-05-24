@@ -1,36 +1,29 @@
 import React from "react";
-import {
-  View,
-  TextInput as ReactNativeTextInput,
-  TextInputProps,
-  StyleSheet,
-} from "react-native";
-import { HelperText } from "react-native-paper";
+import { View } from "react-native";
+import { TextInput as PaperTextInput, HelperText } from "react-native-paper";
+import { TextInputProps } from "react-native-paper/lib/typescript/components/TextInput/TextInput";
 
 export type Props = {
+  label?: string;
   error?: boolean;
   helperText?: string;
-} & TextInputProps;
+} & Omit<TextInputProps, "label" | "error" | "theme">;
 
-const styles = StyleSheet.create({
-  input: {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-  },
-});
-
-const TextInput: React.FC<Props> = ({ error, helperText, ...rest }) => {
+const TextInput: React.FC<Props> = ({ label, error, helperText, ...rest }) => {
   return (
     <View style={{ marginBottom: 15 }}>
-      <ReactNativeTextInput style={styles.input} {...rest} />
+      <PaperTextInput
+        autoComplete="true"
+        label={label}
+        error={error}
+        {...rest}
+      />
 
-      {/* {error && (
+      {error && (
         <HelperText type="error" visible={error}>
           {helperText}
         </HelperText>
-      )} */}
+      )}
     </View>
   );
 };
